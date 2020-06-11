@@ -1,8 +1,6 @@
 package QCM;
 //main class for Client
 
-import java.awt.BorderLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -19,6 +17,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -26,19 +25,18 @@ import java.awt.Cursor;
 public class signInFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField nom;
+	protected JTextField nom;
 	private JLabel passLabel;
-	private JPasswordField passField;
+	protected JPasswordField passField;
 	private ImageIcon icon ;
 	private Image bg;
 	private SignIn signin;
 	private JLabel lblNewLabel;
-	private Filiere filiere;
-	private Etudiant etudiant;
-//	private Client client;
+    protected String filiere;
+	protected Client client;
 	
 
-	public signInFrame(Filiere filiere) {
+	public signInFrame(String filiere) {
 		setTitle("se Conneter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 400);
@@ -121,7 +119,7 @@ public class signInFrame extends JFrame {
 		cancel.setBounds(444, 198, 93, 29);
 		contentPane.add(cancel);
 		
-		lblNewLabel = new JLabel("It's Quiz Time , Wish you luck.");
+		lblNewLabel = new JLabel("It's Examen Time , Wish you luck.");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 21));
 		lblNewLabel.setBounds(214, 61, 352, 20);
@@ -166,25 +164,22 @@ public class signInFrame extends JFrame {
 		{
 			JOptionPane.showMessageDialog(contentPane, "All the feilds are required");
 		}else {
-			etudiant = new Etudiant(etudiantNom, filiere);
-			signin = new SignIn(etudiant, pass);
+			signin = new SignIn(this);
 			if(signin.res)
 			{
 				dispose();
 //				the client will connect to the server
-//				client = new Client(this);
-//				client.start();
-				
-				
+				client = new Client(this);
+				client.start();
 			}else {
-				JOptionPane.showMessageDialog(contentPane, "CNE or Password incorrect");
+				JOptionPane.showMessageDialog(contentPane, "name or Password incorrect");
 			}
 		}
 	}
 	
 	
 //	getter
-	public String getCNE()
+	public String getNom()
 	{
 		return nom.getText();
 	}

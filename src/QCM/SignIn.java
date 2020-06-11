@@ -1,5 +1,6 @@
 package QCM;
 
+import java.io.DataInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,31 +10,33 @@ import java.sql.Statement;
 
 public class SignIn {
 
-	String nom,pass;
+	String nom, pass;
 	Connection connection;
 	PreparedStatement pst;
 	Statement st;
 	boolean res = false;
 
-	public SignIn(Etudiant etudiant,String pass) {
+	public SignIn(signInFrame sif) {
 		super();
-		this.nom = etudiant.getNom();
-		this.pass = pass;		
-	
+
 		try {
-			System.out.println(etudiant.getFiliere().getNom());
-			 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+etudiant.getFiliere().getNom(),"root","");
+			 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/"+sif.filiere,"root","");
 		} catch (SQLException e) {
 			System.out.println("Connection failed: "+ e.getMessage());
 		}
-		res = exist(this.nom, pass);
+		
+		this.nom = sif.nom.getText();
+		char[] p=sif.passField.getPassword();
+		this.pass = new String(p);
+		
+		res = exist(nom, pass);
 
 		
 	}
 	
-	boolean exist(String cne, String pass)
+	boolean exist(String nom, String pass)
 	{
-		String query = "SELECT * FROM student WHERE CNE='"+cne+"' and Password= '"+pass+"'";
+		String query = "SELECT * FROM etudiants WHERE CNE='"+nom+"' and Password= '"+pass+"'";
 		try {
             st = connection.createStatement();
             ResultSet rs = st.executeQuery(query);

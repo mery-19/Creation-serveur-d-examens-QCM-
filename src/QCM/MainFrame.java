@@ -1,5 +1,7 @@
 package QCM;
 
+import professeur.*;
+
 import java.awt.Color;
 
 import javax.swing.ImageIcon;
@@ -68,7 +70,7 @@ public class MainFrame extends JFrame {
 		JButton info = new JButton("G\u00C9NIE INFORMATIQUE");
 		info.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new signInFrame(new Filiere("informatique"));
+				new signInFrame("informatique");
 				dispose();
 			}
 		});
@@ -143,6 +145,21 @@ public class MainFrame extends JFrame {
 		});
 		cancel.setBounds(664, 315, 115, 29);
 		contentPane.add(cancel);
+		
+		JButton btnNewButton = new JButton("je suis professeur");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0)
+			{
+				new EspaceProf();
+				dispose();
+			}
+		});
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnNewButton.setBackground(Color.GREEN);
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 17));
+		btnNewButton.setBounds(15, 316, 218, 29);
+		contentPane.add(btnNewButton);
 		this.setVisible(true);
 		
 		
