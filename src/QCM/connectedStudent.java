@@ -50,7 +50,7 @@ public class connectedStudent extends JFrame {
 		
 		contentPane.add(textarea);
 		
-		JButton listOfStudent = new JButton("Afficher les resultats des étudiants");
+		JButton listOfStudent = new JButton("R\u00E9sultats (Actualiser)");
 		listOfStudent.setBackground(Color.GREEN);
 		listOfStudent.setForeground(Color.WHITE);
 		listOfStudent.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -60,7 +60,7 @@ public class connectedStudent extends JFrame {
 				tableInformatique();
 			}
 		});
-		listOfStudent.setBounds(15, 254, 366, 33);
+		listOfStudent.setBounds(15, 254, 366, 53);
 		contentPane.add(listOfStudent);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -77,7 +77,7 @@ public class connectedStudent extends JFrame {
 	{
 		try {
 			 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/informatique","root","");
-			 String query = "select * from etudiants";
+			 String query = "select etudiant,score from notes";
 			 ps = connection.prepareStatement(query);
 			 ResultSet result = ps.executeQuery();
 			 

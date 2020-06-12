@@ -17,6 +17,7 @@ public class Client extends Thread {
 	int clientNb ;
 	String nom,filiere;
 	
+	
 	public Client(signInFrame signinframe) {
 		
 		try {

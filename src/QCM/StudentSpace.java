@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,7 +25,8 @@ public class StudentSpace extends Thread {
 	Connection connection;
 	Statement st;
 	String filiere,choix;
-	int id;
+	int id,score,i=1;
+	final int QUESTIONS_NUMB = 7;
 
 	public StudentSpace(Socket socket, Server server) {
 		this.socket = socket;
@@ -59,14 +61,20 @@ public class StudentSpace extends Thread {
 				this.choix = dataIn.readUTF();
 				System.out.println("le choix de module est:"+choix);
 //				envoyer les questions au etudiant(client)	
-				while(true)
+				while(i <= QUESTIONS_NUMB)
 				{
 					dataIn = new DataInputStream(socket.getInputStream());
 					id = dataIn.read();
 					sendQuestion(id);
-					
+					receiveAnswer(nom,id);
+					i++;	
 				}
 				
+				score();
+//				send the score to client
+				dataOut = new DataOutputStream(socket.getOutputStream());
+				dataOut.write(score);
+				System.out.println("the student score is: "+score);
 				
 				
 				
@@ -75,7 +83,6 @@ public class StudentSpace extends Thread {
 			}
 
 		}
-	
 	
 	public void sendQuestion(int nb) 
 	{
@@ -89,7 +96,6 @@ public class StudentSpace extends Thread {
 					try {
 						dataOut = new DataOutputStream(socket.getOutputStream());
 						dataOut.writeUTF(rs.getString(i));
-						System.out.println(rs.getString(i));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -100,6 +106,47 @@ public class StudentSpace extends Thread {
 			
 		}
 		catch (SQLException e) {e.printStackTrace();}		
+	}
+	
+//	receive answers from client(student)
+	public void receiveAnswer(String nom, int nb)
+	{
+		try {
+			dataIn = new DataInputStream(socket.getInputStream());
+			String rep = dataIn.readUTF();
+			
+			String query = "SELECT correct from `"+this.choix+"` WHERE id="+nb;
+			st = connection.createStatement();
+			ResultSet rs = st.executeQuery(query);
+			while(rs.next())
+			{
+				if(rep.equals(rs.getString(1)))
+				{
+					++score;
+				}
+			}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+//	Insert the score
+	public void score()
+	{
+		String query = "INSERT INTO notes (`etudiant`, `module`,`score`) VALUES (?,?,?)";
+		PreparedStatement ps;
+		try {
+			ps = connection.prepareStatement(query);
+			ps.setString(1,nom);
+			ps.setString(2,choix);
+			ps.setInt(3,score);
+			int i = ps.executeUpdate();
+			System.out.println(i+" insersion des resulta reussite pour etudiant "+nom);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	
