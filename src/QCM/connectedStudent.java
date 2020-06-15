@@ -28,13 +28,12 @@ public class connectedStudent extends JFrame {
 	private JPanel contentPane;
 	public JTextArea textarea;
 	private Socket socket;
-	private JTable table;
 	private Connection connection;
 	private PreparedStatement ps;
 
 	public connectedStudent() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 897, 400);
+		setBounds(100, 100, 509, 351);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -45,49 +44,11 @@ public class connectedStudent extends JFrame {
 		textarea = new JTextArea();
 		textarea.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
 		textarea.setBackground(Color.WHITE);
-		textarea.setBounds(15, 16, 366, 212);
+		textarea.setBounds(15, 16, 457, 263);
 		textarea.setText("Connected Student :");
 		
 		contentPane.add(textarea);
-		
-		JButton listOfStudent = new JButton("R\u00E9sultats (Actualiser)");
-		listOfStudent.setBackground(Color.GREEN);
-		listOfStudent.setForeground(Color.WHITE);
-		listOfStudent.setFont(new Font("Tahoma", Font.BOLD, 18));
-		listOfStudent.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				tableInformatique();
-			}
-		});
-		listOfStudent.setBounds(15, 254, 366, 53);
-		contentPane.add(listOfStudent);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(396, 18, 452, 312);
-		contentPane.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
 		this.setVisible(true);
 
-	}
-	
-	public void tableInformatique()
-	{
-		try {
-			 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/informatique","root","");
-			 String query = "select etudiant,score from notes";
-			 ps = connection.prepareStatement(query);
-			 ResultSet result = ps.executeQuery();
-			 
-			 table.setModel(DbUtils.resultSetToTableModel(result));
-			 
-		} catch (SQLException e) {
-			System.out.println("Connection failed: "+ e.getMessage());
-		}
-		
-		
-		
 	}
 }

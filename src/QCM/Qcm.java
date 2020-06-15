@@ -334,9 +334,6 @@ public class Qcm extends JFrame {
 		} catch (SQLException e) {
 			System.out.println("Connection failed: "+ e.getMessage());
 		}
-		
-		
-		
 	}
 
 	public void graphics(Graphics g)
@@ -346,9 +343,12 @@ public class Qcm extends JFrame {
 		g.drawImage(image, 20,10,80,50,null);
 		g.drawImage(imgUsmba, x-100,10,80,50,null);//100=20+imgTaille
 		g.drawLine(5, 65, x-5, 65);
+		
 		if(choix.equals("java"))
 		{
 			new QcmJava(g, this);
+		}else if(choix.equals("C/C++")) {
+			new QcmC(g,this);
 		}
 		
 		repaint();

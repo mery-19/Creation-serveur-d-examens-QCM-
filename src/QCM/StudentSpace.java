@@ -86,7 +86,7 @@ public class StudentSpace extends Thread {
 	
 	public void sendQuestion(int nb) 
 	{
-		String query ="SELECT question, ans1,ans2,ans3,ans4 from "+ this.choix +" where id="+nb;
+		String query ="SELECT question, ans1,ans2,ans3,ans4 from `"+ this.choix +"` where id="+nb;
 		try {
 			st = connection.createStatement();
 			ResultSet rs = st.executeQuery(query);
@@ -148,6 +148,5 @@ public class StudentSpace extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
 	
 }

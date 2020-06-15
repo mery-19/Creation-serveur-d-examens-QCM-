@@ -98,6 +98,20 @@ public class ChoixInfo extends JFrame{
 		JButton c = new JButton("C/C++");
 		c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		c.setForeground(Color.WHITE);
+		c.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					dataOut = new DataOutputStream(etudiant.socket.getOutputStream());
+					dataOut.writeUTF("C/C++");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				new Qcm(etudiant,"C/C++");
+				dispose();
+			}
+		});
 		c.setFont(new Font("Tahoma", Font.BOLD, 16));
 		c.setBackground(Color.ORANGE);
 		c.setBounds(334, 145, 115, 29);

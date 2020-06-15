@@ -36,7 +36,7 @@ public class SignIn {
 	
 	boolean exist(String nom, String pass)
 	{
-		String query = "SELECT * FROM etudiants WHERE CNE='"+nom+"' and Password= '"+pass+"'";
+		String query = "SELECT * FROM etudiants WHERE nom='"+nom+"' and Password= '"+pass+"'";
 		try {
             st = connection.createStatement();
             ResultSet rs = st.executeQuery(query);
