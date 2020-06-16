@@ -13,7 +13,7 @@ public class Professeur
 {
 	private String nom;
 	private String specialite;
-	private String listQcm;
+	private String listQcm = new String();
 	private String[] l;
 	protected ArrayList<String> liste = new ArrayList<String>();
 	private Connection connection;
@@ -24,6 +24,7 @@ public class Professeur
 	public Professeur(String nom) {
 		super();
 		this.nom = nom;
+		
 		try {
 		 connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/professeurs","root","");
 		 String query = "select filiere,listQcm from profs where nom='"+nom+"'";
@@ -35,11 +36,15 @@ public class Professeur
 			 this.listQcm = rs.getString(2);
 		 }
 		 
-		 l = listQcm.split(",");
-		 for (String module : l) {
-			liste.add(module);
-			System.out.println(module);
-		}
+		 if(listQcm.contains(","))
+		 {
+			 l = listQcm.split(",");
+			 for (String module : l) {
+				liste.add(module);
+				System.out.println(module);
+			} 
+		 }
+		 
 		 		 
 	} catch (SQLException e) {
 		System.out.println("Connection failed: "+ e.getMessage());

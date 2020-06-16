@@ -24,7 +24,8 @@ public class MainFrame extends JFrame {
 	private Image image,imgUsmba;
 	int x,y;
 	public MainFrame() {
-		this.setTitle("ENSA Fes");
+		this.setTitle("ENS"
+				+ "A Fes");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 400);
 		this.setLocationRelativeTo(null);

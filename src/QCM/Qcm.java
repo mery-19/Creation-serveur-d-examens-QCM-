@@ -51,10 +51,11 @@ public class Qcm extends JFrame {
 	final int QUESTIONS_NUMB = 7;
 	protected int id,j=1;
 	ArrayList<Integer> idTable=new ArrayList<Integer>();
-	protected JButton next;
+	JButton next;
 	private ImageIcon icon,usmba;
 	private Image image,imgUsmba;
 	private int x,y;
+	JButton play;
 	
 	private JTable table;
 	
@@ -77,6 +78,7 @@ public class Qcm extends JFrame {
 		buttonGroup = new ButtonGroup();
 		
 		nextActionListner();
+		
 
 		try {
 //			send question number to the server
@@ -126,8 +128,7 @@ public class Qcm extends JFrame {
 			buttonGroup.add(ans4);
 			ans4.setBounds(25, 209, 350, 29);
 			ans4.setBackground(Color.white);
-			contentPane.add(ans4);
-
+			contentPane.add(ans4);	
 		} catch (IOException e) {e.printStackTrace();}
 		
 		this.setVisible(true);
@@ -338,20 +339,21 @@ public class Qcm extends JFrame {
 
 	public void graphics(Graphics g)
 	{
-		 x= this.getWidth();
-		 y= this.getHeight();
+		x= this.getWidth();
+		y= this.getHeight();
 		g.drawImage(image, 20,10,80,50,null);
 		g.drawImage(imgUsmba, x-100,10,80,50,null);//100=20+imgTaille
 		g.drawLine(5, 65, x-5, 65);
 		
 		if(choix.equals("java"))
 		{
-			new QcmJava(g, this);
-		}else if(choix.equals("C/C++")) {
+			new QcmJava(g, this);			
+		}
+		else if(choix.equals("C/C++"))
+		{
 			new QcmC(g,this);
 		}
 		
-		repaint();
 		
 	}
 }
