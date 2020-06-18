@@ -26,7 +26,7 @@ public class StudentSpace extends Thread {
 	Statement st;
 	String filiere,choix;
 	int id,score,i=1;
-	final int QUESTIONS_NUMB = 7;
+	final int QUESTIONS_NUMB = 20;
 
 	public StudentSpace(Socket socket, Server server) {
 		this.socket = socket;

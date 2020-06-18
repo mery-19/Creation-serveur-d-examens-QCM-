@@ -32,6 +32,8 @@ import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 
 import net.proteanit.sql.DbUtils;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import java.awt.Color;
 import javax.swing.JButton;
@@ -48,7 +50,7 @@ public class Qcm extends JFrame {
 	DataInputStream dataIn;
 	static protected String choix;
 	Client etudiant;
-	final int QUESTIONS_NUMB = 7;
+	final int QUESTIONS_NUMB = 20;
 	protected int id,j=1;
 	ArrayList<Integer> idTable=new ArrayList<Integer>();
 	JButton next;
@@ -56,6 +58,8 @@ public class Qcm extends JFrame {
 	private Image image,imgUsmba;
 	private int x,y;
 	JButton play;
+	QcmJava qcmJava;
+	boolean res = false;
 	
 	private JTable table;
 	
@@ -70,7 +74,7 @@ public class Qcm extends JFrame {
 		this.etudiant = etudiant;
 
 		header();
-		
+	
 		fin = new JLabel();
 		fin.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		fin.setBounds(25, 16, 300, 20);
@@ -80,11 +84,11 @@ public class Qcm extends JFrame {
 		nextActionListner();
 		
 
-		try {
+		try {			
 //			send question number to the server
 			dataOut = new DataOutputStream(etudiant.socket.getOutputStream());
 			dataOut.write(generateQuestion());
-			
+
 //			the server response with the question
 			dataIn = new DataInputStream(etudiant.socket.getInputStream());
 			contentPane.setLayout(null);
@@ -128,7 +132,8 @@ public class Qcm extends JFrame {
 			buttonGroup.add(ans4);
 			ans4.setBounds(25, 209, 350, 29);
 			ans4.setBackground(Color.white);
-			contentPane.add(ans4);	
+			contentPane.add(ans4);			
+
 		} catch (IOException e) {e.printStackTrace();}
 		
 		this.setVisible(true);
@@ -144,6 +149,8 @@ public class Qcm extends JFrame {
 		
 		idTable.add(id);
 		
+		audio();
+
 		return id;
 	}
 	
@@ -164,15 +171,15 @@ public class Qcm extends JFrame {
 				try {	
 					
 				if(j <= QUESTIONS_NUMB) {
+
 //					sending answer to server to stock it in the database
 					dataOut = new DataOutputStream(etudiant.socket.getOutputStream());
 					dataOut.writeUTF(buttonGroup.getSelection().getActionCommand());
-					
+
 					dataOut = new DataOutputStream(etudiant.socket.getOutputStream());
 					dataOut.write(generateQuestion());
-					
-					getQuestionFromDB();
-					
+
+					getQuestionFromDB();					
 				}else
 				{
 //					sending answer to server to stock it in the database
@@ -347,13 +354,60 @@ public class Qcm extends JFrame {
 		
 		if(choix.equals("java"))
 		{
-			new QcmJava(g, this);			
+			qcmJava = new QcmJava(g, this);
+			res = qcmJava.res;
 		}
 		else if(choix.equals("C/C++"))
 		{
 			new QcmC(g,this);
+		}		
+	}
+	
+//	public void audio()
+//	{
+//		if(qcmJava != null && res)
+//		{
+//			qcmJava.audioPlay();
+//		}else if(play != null)
+//		{
+//			play.setVisible(false);
+//		}
+//	}
+	
+	public void audio() {
+		if(qcmJava!= null && res)
+		{
+		System.out.println("contains: / enter: id= "+id);
+		play = new JButton();
+		play.setText("click here to play the voice");
+		play.setBounds(400,150,200,100);
+		play.setBackground(Color.orange);
+		contentPane.add(play);
+		play.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					InputStream is = new FileInputStream(new File(qcmJava.id+".wav"));
+					try {
+						AudioStream as = new AudioStream(is);
+						AudioPlayer.player.start(as);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}	
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}							
+			}
+		});	
+		
+		} else {
+			if(play != null)
+			{
+				play.setVisible(false);
+			}
 		}
-		
-		
+
+	
 	}
 }

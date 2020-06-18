@@ -23,6 +23,7 @@ public class MainFrame extends JFrame {
 	private ImageIcon icon,usmba;
 	private Image image,imgUsmba;
 	int x,y;
+	
 	public MainFrame() {
 		this.setTitle("ENS"
 				+ "A Fes");
@@ -71,7 +72,9 @@ public class MainFrame extends JFrame {
 		JButton info = new JButton("G\u00C9NIE INFORMATIQUE");
 		info.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new signInFrame("informatique");
+				signInFrame sf = new signInFrame("informatique");
+				sf.nom.setText("test");
+				sf.passField.setText("test");
 				dispose();
 			}
 		});
