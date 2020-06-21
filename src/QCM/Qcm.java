@@ -60,6 +60,7 @@ public class Qcm extends JFrame {
 	JButton play;
 	QcmJava qcmJava;
 	boolean res = false;
+	int i=0;
 	
 	private JTable table;
 	
@@ -68,8 +69,6 @@ public class Qcm extends JFrame {
 
 	public Qcm(Client etudiant,String module) 
 	{
-		header();
-
 		this.choix = module;
 		this.etudiant = etudiant;
 
@@ -84,15 +83,18 @@ public class Qcm extends JFrame {
 		nextActionListner();
 		
 
-		try {			
+		try {
+			
+
 //			send question number to the server
 			dataOut = new DataOutputStream(etudiant.socket.getOutputStream());
 			dataOut.write(generateQuestion());
 
+			i++;
 //			the server response with the question
 			dataIn = new DataInputStream(etudiant.socket.getInputStream());
 			contentPane.setLayout(null);
-			question = new JLabel(dataIn.readUTF());
+			question = new JLabel(i+")- " + dataIn.readUTF());
 			question.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			question.setBounds(25, 82, 738, 29);
 			contentPane.add(question);
@@ -132,7 +134,10 @@ public class Qcm extends JFrame {
 			buttonGroup.add(ans4);
 			ans4.setBounds(25, 209, 350, 29);
 			ans4.setBackground(Color.white);
-			contentPane.add(ans4);			
+			contentPane.add(ans4);
+			
+			audio();
+
 
 		} catch (IOException e) {e.printStackTrace();}
 		
@@ -144,12 +149,10 @@ public class Qcm extends JFrame {
 		Random random= new Random();
 		
 		do {
-			id = random.nextInt(QUESTIONS_NUMB)+1;
+			id = random.nextInt(30)+1;
 		}while(idTable.contains(id) == true);
 		
 		idTable.add(id);
-		
-		audio();
 
 		return id;
 	}
@@ -178,8 +181,11 @@ public class Qcm extends JFrame {
 
 					dataOut = new DataOutputStream(etudiant.socket.getOutputStream());
 					dataOut.write(generateQuestion());
+					
+					getQuestionFromDB();
+					
+					audio();
 
-					getQuestionFromDB();					
 				}else
 				{
 //					sending answer to server to stock it in the database
@@ -208,8 +214,9 @@ public class Qcm extends JFrame {
 	{
 		buttonGroup = new ButtonGroup();
 		
+		i++;
 		dataIn = new DataInputStream(etudiant.socket.getInputStream());
-		question.setText(dataIn.readUTF());
+		question.setText(i+ ")- "+dataIn.readUTF());
 	
 		dataIn = new DataInputStream(etudiant.socket.getInputStream());
 		String stg = dataIn.readUTF();
@@ -278,6 +285,24 @@ public class Qcm extends JFrame {
 		lab2.setBounds(253, 32, 282, 20);
 		contentPane.add(lab2);
 	}
+	
+	public void graphics(Graphics g)
+	{
+		x= this.getWidth();
+		y= this.getHeight();
+		g.drawImage(image, 20,10,80,50,null);
+		g.drawImage(imgUsmba, x-100,10,80,50,null);//100=20+imgTaille
+		g.drawLine(5, 65, x-5, 65);
+		
+		if(choix.equals("java"))
+		{
+			qcmJava = new QcmJava(g, this);
+		}
+		else if(choix.equals("C/C++"))
+		{
+			new QcmC(g,this);
+		}		
+	}
 
 	public void finPanel()
 	{
@@ -344,38 +369,10 @@ public class Qcm extends JFrame {
 		}
 	}
 
-	public void graphics(Graphics g)
-	{
-		x= this.getWidth();
-		y= this.getHeight();
-		g.drawImage(image, 20,10,80,50,null);
-		g.drawImage(imgUsmba, x-100,10,80,50,null);//100=20+imgTaille
-		g.drawLine(5, 65, x-5, 65);
-		
-		if(choix.equals("java"))
-		{
-			qcmJava = new QcmJava(g, this);
-			res = qcmJava.res;
-		}
-		else if(choix.equals("C/C++"))
-		{
-			new QcmC(g,this);
-		}		
-	}
-	
-//	public void audio()
-//	{
-//		if(qcmJava != null && res)
-//		{
-//			qcmJava.audioPlay();
-//		}else if(play != null)
-//		{
-//			play.setVisible(false);
-//		}
-//	}
-	
 	public void audio() {
-		if(qcmJava!= null && res)
+		System.out.println(qcmJava);
+		
+		if(qcmJava!= null && qcmJava.audioQuestion.contains(id))
 		{
 		System.out.println("contains: / enter: id= "+id);
 		play = new JButton();
@@ -400,6 +397,8 @@ public class Qcm extends JFrame {
 				}							
 			}
 		});	
+			play.setVisible(true);
+
 		
 		} else {
 			if(play != null)
@@ -407,6 +406,15 @@ public class Qcm extends JFrame {
 				play.setVisible(false);
 			}
 		}
+		
+//		if(qcmJava!= null && play != null && !qcmJava.audioQuestion.contains(id))
+//		{
+//			System.out.println("enter here");
+//			play.setVisible(false);
+//			contentPane.remove(play);
+//			contentPane.revalidate();
+//			contentPane.repaint();
+//		}
 
 	
 	}

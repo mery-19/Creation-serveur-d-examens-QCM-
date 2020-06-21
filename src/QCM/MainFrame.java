@@ -1,5 +1,6 @@
 package QCM;
 
+
 import professeur.*;
 
 import java.awt.Color;
@@ -23,6 +24,7 @@ public class MainFrame extends JFrame {
 	private ImageIcon icon,usmba;
 	private Image image,imgUsmba;
 	int x,y;
+	
 	
 	public MainFrame() {
 		this.setTitle("ENS"
