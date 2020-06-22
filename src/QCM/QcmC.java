@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-public class QcmC{
+public class QcmC {
 
 	ArrayList<Integer> imgQuestion;
 	ImageIcon imgIcon ;
@@ -20,7 +20,9 @@ public class QcmC{
 		imgQuestion.add(5);
 		imgQuestion.add(6);
 		imgQuestion.add(7);
-		
+		imgQuestion.add(29);
+		imgQuestion.add(30);
+
 		id = qcm.id;
 		
 		if(imgQuestion.contains(id))
@@ -28,21 +30,10 @@ public class QcmC{
 			imgIcon = new ImageIcon(getClass().getResource("/images/cq"+this.id+".png"));
 			img = imgIcon.getImage();
 			
-			paint(g);
+			if(imgQuestion.contains(id ))
+			{
+				g.drawImage(img,350, 110, 350, 240, null);
+			}
 		}
-	
 	}
-	
-	public void paint(Graphics g) 
-	{
-		if(imgQuestion.contains(id ))
-		{
-			g.drawImage(img,350, 100, 350, 250, null);
-			
-		}
-	
-	}
-	
-	
-
 }
