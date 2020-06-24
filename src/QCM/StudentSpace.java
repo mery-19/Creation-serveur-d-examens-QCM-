@@ -76,6 +76,9 @@ public class StudentSpace extends Thread {
 				dataOut.write(score);
 				System.out.println("the student score is: "+score);
 				
+				dataIn = new DataInputStream(socket.getInputStream());
+				String dis = dataIn.readUTF();
+				server.studentList.textarea.append(dis);
 				
 				
 			}catch (IOException e) {

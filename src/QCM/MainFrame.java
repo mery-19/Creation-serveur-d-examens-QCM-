@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
 		
 		usmba = new ImageIcon(getClass().getResource("/images/usmba.png"));
 		imgUsmba = usmba.getImage();
-		contentPane = new JPanel() {
+		contentPane = new JPanel(){
 			@Override
 			public void paint(Graphics g) {
 				super.paint(g);

@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import net.proteanit.sql.DbUtils;
@@ -42,7 +43,7 @@ public class Qcm extends JFrame {
 
 	protected JPanel contentPane;
 	private JRadioButton ans1,ans2,ans3,ans4;
-	private JLabel question,fin,lab1;
+	private JLabel question,fin,lab1,labTime;
 	private ButtonGroup buttonGroup;
 	private DataOutputStream dataOut;
 	private DataInputStream dataIn;
@@ -54,11 +55,12 @@ public class Qcm extends JFrame {
 	private JButton next,play;
 	private ImageIcon icon,usmba;
 	private Image image,imgUsmba;
-	private int i=0;
+	private int i=0,minute=0,second=0;
 	private QcmJava qcmJava;
 	private JTable table;
 	private Connection connection;
 	private PreparedStatement ps;
+	private Timer horloge;
 
 	public Qcm(Client etudiant,String module) 
 	{
@@ -67,6 +69,25 @@ public class Qcm extends JFrame {
 
 		initialize();
 
+		horloge = new Timer(1000, new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				 if(second != 60)
+				{
+					labTime.setText("the time passed "+minute+":"+second);
+				}else {
+					minute++;
+					second = 0;
+					labTime.setText("the time passed "+minute+":"+second);
+				}
+				second++;
+				repaint();
+
+			}
+		});
+		horloge.start();
+		
 		try {
 //		for the first question
 			getQuestionFromServer();
@@ -149,6 +170,11 @@ public class Qcm extends JFrame {
 		ans4.setBounds(25, 209, 350, 29);
 		ans4.setBackground(Color.white);
 		contentPane.add(ans4);
+		
+		labTime = new JLabel();
+		labTime.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
+		labTime.setBounds(25, 320, 200, 29);
+		contentPane.add(labTime);
 
 	}
 	
@@ -190,6 +216,8 @@ public class Qcm extends JFrame {
 					id=0;
 					contentPane.revalidate(); 
 					contentPane.repaint();
+					dataOut = new DataOutputStream(etudiant.socket.getOutputStream());
+					dataOut.writeUTF("\n the student << "+etudiant.nom+" >> had finished the exam. \n");
 				}
 				}catch (IOException e1) {e1.printStackTrace();}	
 			}
@@ -319,7 +347,8 @@ public class Qcm extends JFrame {
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		
+//	    scrollPane.getViewport().setBackground(Color.orange);
+
 		JButton show = new JButton("Show All My Scores");
 		show.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
 		show.setBackground(Color.ORANGE);

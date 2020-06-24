@@ -123,6 +123,20 @@ public class ChoixInfo extends JFrame{
 		english.setFont(new Font("Tahoma", Font.BOLD, 16));
 		english.setBackground(Color.ORANGE);
 		english.setBounds(474, 145, 115, 29);
+		english.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					dataOut = new DataOutputStream(etudiant.socket.getOutputStream());
+					dataOut.writeUTF("english");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				new Qcm(etudiant,"english");
+				dispose();				
+			}
+		});
 		contentPane.add(english);
 		
 		setVisible(true);
