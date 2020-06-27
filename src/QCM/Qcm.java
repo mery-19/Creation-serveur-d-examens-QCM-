@@ -104,7 +104,7 @@ public class Qcm extends JFrame {
 	{
 		setBackground(Color.WHITE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setLocationRelativeTo(null);
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 800, 400);
 		setTitle("QCM");
 		

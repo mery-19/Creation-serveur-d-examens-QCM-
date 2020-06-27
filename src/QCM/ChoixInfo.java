@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Cursor;
+import javax.swing.JTextPane;
+import java.awt.SystemColor;
 
 public class ChoixInfo extends JFrame{
 	
@@ -73,7 +75,12 @@ public class ChoixInfo extends JFrame{
 		lblChoisissezUnModule.setBounds(225, 109, 346, 20);
 		contentPane.add(lblChoisissezUnModule);
 		
-		JButton javabutt = new JButton("JAVA");
+		JButton javabutt = new JButton();
+		ImageIcon img= new ImageIcon(ChoixInfo.class.getResource("/images/java.jpg"));
+		Image img1 = img.getImage() ;  
+		Image newimg = img1.getScaledInstance(120, 100,  java.awt.Image.SCALE_SMOOTH ) ;
+		img = new ImageIcon( newimg );
+		javabutt.setIcon(img);
 		javabutt.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		javabutt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -92,10 +99,15 @@ public class ChoixInfo extends JFrame{
 		javabutt.setFont(new Font("Tahoma", Font.BOLD, 16));
 		javabutt.setForeground(Color.WHITE);
 		javabutt.setBackground(Color.ORANGE);
-		javabutt.setBounds(194, 145, 115, 29);
+		javabutt.setBounds(167, 145, 115, 101);
 		contentPane.add(javabutt);
 		
-		JButton c = new JButton("C/C++");
+		JButton c = new JButton();
+		ImageIcon imgc= new ImageIcon(ChoixInfo.class.getResource("/images/c.png"));
+		Image img1c = imgc.getImage() ;  
+		Image newimgc = img1c.getScaledInstance(120, 100,  java.awt.Image.SCALE_SMOOTH ) ;
+		imgc = new ImageIcon( newimgc );
+		c.setIcon(imgc);
 		c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		c.setForeground(Color.WHITE);
 		c.addActionListener(new ActionListener() {
@@ -114,15 +126,20 @@ public class ChoixInfo extends JFrame{
 		});
 		c.setFont(new Font("Tahoma", Font.BOLD, 16));
 		c.setBackground(Color.ORANGE);
-		c.setBounds(334, 145, 115, 29);
+		c.setBounds(334, 145, 115, 101);
 		contentPane.add(c);
 		
-		JButton english = new JButton("English");
+		JButton english = new JButton();
+		ImageIcon imge= new ImageIcon(ChoixInfo.class.getResource("/images/english.jpg"));
+		Image img1e = imge.getImage() ;  
+		Image newimge = img1e.getScaledInstance(120, 100,  java.awt.Image.SCALE_SMOOTH ) ;
+		imge = new ImageIcon( newimge );
+		english.setIcon(imge);
 		english.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		english.setForeground(Color.WHITE);
 		english.setFont(new Font("Tahoma", Font.BOLD, 16));
 		english.setBackground(Color.ORANGE);
-		english.setBounds(474, 145, 115, 29);
+		english.setBounds(494, 145, 115, 101);
 		english.addActionListener(new ActionListener() {
 			
 			@Override
@@ -138,6 +155,18 @@ public class ChoixInfo extends JFrame{
 			}
 		});
 		contentPane.add(english);
+		
+		JLabel lblNewLabel = new JLabel("<html>-Instructions: </html>");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel.setForeground(Color.RED);
+		lblNewLabel.setBounds(42, 288, 102, 20);
+		contentPane.add(lblNewLabel);
+		
+		JLabel text = new JLabel();
+		text.setForeground(SystemColor.controlDkShadow);
+		text.setText("<html>1)- Each quiz has 20 questions generated randomly.<br> 2)-Correct: +1, incorrect: +0.<br> 3)-After you finish the quiz you can see all your results.</html>");
+		text.setBounds(167, 282, 404, 62);
+		contentPane.add(text);
 		
 		setVisible(true);
 		

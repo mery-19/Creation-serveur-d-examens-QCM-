@@ -68,22 +68,22 @@ public class signInFrame extends JFrame {
 		JLabel CNELabel = new JLabel("Nom et Prénom:");
 		CNELabel.setForeground(Color.WHITE);
 		CNELabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		CNELabel.setBounds(157, 117, 148, 20);
+		CNELabel.setBounds(157, 114, 148, 20);
 		contentPane.add(CNELabel);
 		
 		nom = new JTextField();
-		nom.setBounds(320, 115, 217, 26);
+		nom.setBounds(342, 112, 217, 29);
 		contentPane.add(nom);
 		nom.setColumns(10);
 		
 		passLabel = new JLabel("Password: ");
 		passLabel.setForeground(Color.WHITE);
 		passLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
-		passLabel.setBounds(179, 153, 104, 20);
+		passLabel.setBounds(177, 153, 104, 20);
 		contentPane.add(passLabel);
 		
 		passField = new JPasswordField();
-		passField.setBounds(320, 150, 217, 26);
+		passField.setBounds(342, 154, 217, 29);
 		contentPane.add(passField);
 		
 		JButton submit = new JButton("submit");
@@ -100,7 +100,7 @@ public class signInFrame extends JFrame {
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) { submit(); }
 		});
-		submit.setBounds(320, 198, 93, 29);
+		submit.setBounds(342, 217, 93, 29);
 		contentPane.add(submit);
 		/*
 		 * Cancel Button
@@ -116,13 +116,13 @@ public class signInFrame extends JFrame {
 		cancel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cancel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 17));
 		cancel.setBackground(Color.RED);
-		cancel.setBounds(444, 198, 93, 29);
+		cancel.setBounds(461, 217, 93, 29);
 		contentPane.add(cancel);
 		
 		lblNewLabel = new JLabel("It's Examen Time , Wish you luck.");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 21));
-		lblNewLabel.setBounds(214, 61, 352, 20);
+		lblNewLabel.setBounds(217, 35, 371, 20);
 		contentPane.add(lblNewLabel);
 		
 //		handle key Event
